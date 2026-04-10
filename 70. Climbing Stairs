@@ -1,5 +1,14 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        if n == 0 or n == 1:
-            return 1
-        return self.climbStairs(n-1) + self.climbStairs(n-2)
+        # Base cases
+        if n <= 2:
+            return n
+        
+        # We only need to track the two previous values
+        prev, curr = 1, 2
+        
+        for _ in range(3, n + 1):
+            # Fibonacci-style calculation: next = prev + current
+            prev, curr = curr, prev + curr
+            
+        return curr
