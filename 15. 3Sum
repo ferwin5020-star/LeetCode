@@ -1,0 +1,43 @@
+from typing import List
+
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        n = len(nums)
+        res = []
+
+        for i in range(n - 2):
+            curr = nums[i]
+            
+            # Pruning 1: If current number is > 0, no 3 numbers can sum to 0
+            if curr > 0:
+                break
+            
+            # Skip duplicates for the first element
+            if i > 0 and curr == nums[i - 1]:
+                continue
+
+            # Pruning 2: If current + two smallest > 0, stop this loop early
+            if curr + nums[i + 1] + nums[i + 2] > 0:
+                break
+            
+            # Pruning 3: If current + two largest < 0, skip to next i
+            if curr + nums[n - 2] + nums[n - 1] < 0:
+                continue
+
+            left, right = i + 1, n - 1
+            while left < right:
+                s = curr + nums[left] + nums[right]
+                if s == 0:
+                    res.append([curr, nums[left], nums[right]])
+                    left += 1
+                    right -= 1
+                    while left < right and nums[left] == nums[left - 1]:
+                        left += 1
+                    while left < right and nums[right] == nums[right + 1]:
+                        right -= 1
+                elif s < 0:
+                    left += 1
+                else:
+                    right -= 1
+        return res
